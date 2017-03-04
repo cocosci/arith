@@ -3,8 +3,6 @@
 
 from collections import defaultdict
 from fractions import Fraction
-import binascii
-import sys
 
 
 def build_prob(input_codes):
@@ -68,7 +66,7 @@ def decode_fraction(input_fraction, input_prob):
     return ''.join([chr(code) for code in output_codes])
 
 
-string = 'bananas, bananas, bananas!'
+string = 'BANANA'
 codes = [ord(char) for char in string] + [256]
 
 prob = build_prob(codes)
@@ -84,14 +82,5 @@ print('decoded_fraction:', repr(decoded_fraction))
 binary_fraction = find_binary_fraction(fraction_range[0], fraction_range[1])
 print('binary_fraction:', repr(binary_fraction))
 
-fraction_bit_length = binary_fraction.denominator.bit_length() - 1
-fraction_octet_length = (fraction_bit_length + 7) // 8
-
-numerator_as_bytes = binary_fraction.numerator.to_bytes(fraction_octet_length, 'big')
-print('numerator_as_bytes:', repr(binascii.hexlify(numerator_as_bytes)))
-
 decoded_binary_fraction = decode_fraction(binary_fraction, prob)
 print('decoded_binary_fraction:', repr(decoded_binary_fraction))
-
-decoded_bytes = decoded_binary_fraction.encode('ascii')
-print('decoded_bytes', repr(binascii.hexlify(decoded_bytes)))
